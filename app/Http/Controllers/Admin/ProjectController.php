@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -34,6 +35,11 @@ class ProjectController extends Controller
             'title' => 'required|string|unique:projects',
             'description' => 'required|string',
             'language' => 'required|string'
+        ], [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.unique' => 'Il titolo è già esistente',
+            'description.required' => 'La descrizione è obligatoria',
+            'language.required' => 'La lingua è obbligatoria'
         ]);
         $data = $request->all();
         $project = new Project();
@@ -55,7 +61,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -63,7 +69,21 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        
+        $request->validate([
+            'title' => ['required', 'string', Rule::unique('projects')->ignore($project->id)],
+            'language' => 'required|string',
+            'description' => 'required|string'
+        ], [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.unique' => 'Il titolo è già esistente',
+            'description.required' => 'La descrizione è obligatoria',
+            'language.required' => 'La lingua è obbligatoria'
+        ]);
+        $data = $request->all();
+        $project->fill($data);
+        $project->save();
+        return to_route('admin.projects.show', $project->id);
     }
 
     /**
