@@ -22,7 +22,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -30,7 +30,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|unique:projects',
+            'description' => 'required|string',
+            'language' => 'required|string'
+        ]);
+        $data = $request->all();
+        $project = new Project();
+        $project->fill($data);
+        $project->save();
+        return to_route('admin.projects.show', $project->id);
     }
 
     /**
