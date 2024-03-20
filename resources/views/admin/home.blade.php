@@ -1,4 +1,6 @@
 @extends('layouts.app')
+    
+
 
 @section('content')
 <div class="container">
@@ -16,8 +18,11 @@
                         {{ session('status') }}
                     </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    <ul>
+                        <li>
+                            <a href="{{route('admin.projects.index')}}">Index</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
