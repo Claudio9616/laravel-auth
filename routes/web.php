@@ -23,7 +23,7 @@ Route::get('/admin', AdminHomeController::class)->middleware(['auth'])->name('ad
 
 Route::get('/admin/projects', [AdminProjectController::class, 'index'])->name('admin.projects.index')->middleware('auth');
 Route::get('/admin/projects/create', [AdminProjectController::class, 'create'])->name('admin.projects.create')->middleware('auth');
-Route::get('/admin/projects/{porject}', [AdminProjectController::class, 'show'])->name('admin.projects.show')->middleware('auth');
+Route::get('/admin/projects/{project}', [AdminProjectController::class, 'show'])->name('admin.projects.show')->middleware('auth');
 Route::get('/admin/projects/{project}/edit', [AdminProjectController::class, 'edit'])->name('admin.projects.edit')->middleware('auth');
 Route::post('/admin/projects', [AdminProjectController::class, 'store'])->name('admin.projects.store')->middleware('auth');
 Route::put('/admin/projects/{project}', [AdminProjectController::class, 'update'])->name('admin.projects.update')->middleware('auth');
