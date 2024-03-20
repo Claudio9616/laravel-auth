@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        @if (session('message'))
+        <strong>{{session('message')}}</strong>
+         @endif
         <table class="table table-dark table-striped">
             <thead>
               <tr>
@@ -25,8 +28,11 @@
                         <div class="d-flex justify-content-end gap-3">
                             <a href="{{route('admin.projects.show', $project->id)}}"><i class="fa-solid fa-eye"></i></a>
                             <a href="{{route('admin.projects.edit', $project->id)}}"><i class="fa-solid fa-pencil"></i></a>
-                            <a href=""><i class="fa-solid fa-trash"></i></a>
-                            {{-- ricordati che questo è un form non una a che fa richieste solo in get --}}
+                            <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST">                           
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
