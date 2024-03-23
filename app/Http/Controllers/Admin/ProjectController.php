@@ -6,6 +6,8 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -34,16 +36,22 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'required|string|unique:projects',
             'description' => 'required|string',
-            'language' => 'required|string'
+            'language' => 'required|string',
+            'image' => 'nullable|image'
         ], [
             'title.required' => 'Il titolo è obbligatorio',
             'title.unique' => 'Il titolo è già esistente',
             'description.required' => 'La descrizione è obligatoria',
-            'language.required' => 'La lingua è obbligatoria'
+            'language.required' => 'La lingua è obbligatoria',
+            'image.image' => 'Il file inserito non è valido'
         ]);
         $data = $request->all();
         $project = new Project();
         $project->fill($data);
+        if(Arr::exists($data, 'image')){
+            $img_url = Storage::putFile('project_images', $data['image']);
+            $project->image = $img_url;
+        }
         $project->save();
         return to_route('admin.projects.show', $project->id);
     }
@@ -73,15 +81,21 @@ class ProjectController extends Controller
         $request->validate([
             'title' => ['required', 'string', Rule::unique('projects')->ignore($project->id)],
             'language' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'image' => 'nullable|image'
         ], [
             'title.required' => 'Il titolo è obbligatorio',
             'title.unique' => 'Il titolo è già esistente',
             'description.required' => 'La descrizione è obligatoria',
-            'language.required' => 'La lingua è obbligatoria'
+            'language.required' => 'La lingua è obbligatoria',
+            'image.image' => 'Il file inserito non è valido'
         ]);
         $data = $request->all();
         $project->fill($data);
+        if(Arr::exists($data, 'image')){
+            $img_url = Storage::putFile('project_images', $data['image']);
+            $project->image = $img_url;
+        }
         $project->save();
         return to_route('admin.projects.show', $project->id);
     }

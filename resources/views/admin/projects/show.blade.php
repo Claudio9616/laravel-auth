@@ -4,6 +4,7 @@
 <div class="container">
     <h1>{{$project->title}}</h1>
     <p>{{$project->description}}</p>
+    <img src="{{asset('storage/' . $project->image)}}" alt="" class="img-fluid">
     <div class="d-flex justify-content-between">
         <a href="{{route('admin.projects.index')}}" class="btn btn-secondary">INDIETRO</a>
         <div class="d-flex justify-content-between gap-3">
