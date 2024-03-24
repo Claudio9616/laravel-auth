@@ -26,8 +26,6 @@ Route::get('/', GuestHomeController::class)->name('guest.home');
 
 // TO DO:
 // MODIFICARE LO STILE DELLE IMG NELLO SHOW
-// MODIFICARE LA VALITATION RULE IN UPDATE
-// CAPIRE PERCHè NELL'EDIT NON MI MODIFICA LA IMG (RIPRENDI DAL MINUTO 40 FIDATI!!!)
 // GESTIRE GLI ERRORI CON IL @MESSAGE (VEDI LEZIONE DEL 21/03)
 
 Route::get('/admin', AdminHomeController::class)->middleware(['auth'])->name('admin.home');
